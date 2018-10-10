@@ -37,12 +37,15 @@ abstract class AbstractCompany
     }
 
     /**
-     * @param int $id
+     * @param mixed $id
      * @return AbstractCompany
      */
-    public function setId(int $id): AbstractCompany
+    public function setId($id): AbstractCompany
     {
-        $this->id = $id;
+        if ($id == '') {
+            return $this;
+        }
+        $this->id = intval($id);
         return $this;
     }
 

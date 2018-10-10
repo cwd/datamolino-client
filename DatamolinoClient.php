@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Cwd\Datamolino;
 
 use Cwd\Datamolino\Model\Agenda;
+use Cwd\Datamolino\Model\Document;
 use Cwd\Datamolino\Model\User;
 use GuzzleHttp\Psr7\Request;
 use Http\Client\HttpClient;
@@ -39,7 +40,33 @@ class DatamolinoClient
 
         $normalizer = new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter(), null, new ReflectionExtractor());
         $this->serializer = new Serializer([new DateTimeNormalizer(), $normalizer], ['json' => new JsonEncoder()]);
+    }
 
+    public function getDocuments($agendaId, ?\DateTime $modifiedSince = null, array $states = [], $page = 1, $type = Document::DOCTYPE_PURCHASE, array $ids = [])
+    {
+        $queryString = [
+            sprintf('agenda_id=%s', $agendaId),
+            sprintf('page=%s', $page),
+            sprintf('type=%s', $type),
+        ];
+
+        if ($modifiedSince !== null) {
+            $queryString[] = sprintf('modified_since=%s', $modifiedSince->format('Y-m-d\TH:i:s\Z'));
+        }
+
+        if (count($states) > 0) {
+            foreach ($states as $state) {
+                $queryString[] = sprintf('state[]=%s', $state);
+            }
+        }
+
+        if (count($ids) > 0) {
+            foreach ($ids as $id) {
+                $queryString[] = sprintf('ids[]=%s', $id);
+            }
+        }
+
+        return $this->call(null, sprintf('?%s', implode('&', $queryString)), 'documents', Document::class, true, 'GET');
     }
 
     /**
@@ -113,7 +140,7 @@ class DatamolinoClient
 
     /**
      * @param string|null $payload
-     * @param int|null $id
+     * @param int|string|null $id
      * @param string $endpoint
      * @param string|null $hydrationClass
      * @param bool $isList
@@ -128,7 +155,8 @@ class DatamolinoClient
         }
 
         if (in_array($method, ['GET', 'PUT', 'DELETE'])) {
-            $uri = sprintf('%s%s/%s', $this->apiUri, $endpoint, $id);
+            $format = (is_int($id)) ? '%s%s/%s' : '%s%s%s';
+            $uri = sprintf($format, $this->apiUri, $endpoint, $id);
         } else {
             $uri = $this->apiUri.$endpoint;
         }

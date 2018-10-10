@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace Cwd\Datamolino\Model;
 
 
+use Cwd\Datamolino\Model\Document\BankAccount;
+use Cwd\Datamolino\Model\Document\Customer;
 use Cwd\Datamolino\Model\Document\Data;
+use Cwd\Datamolino\Model\Document\Item;
+use Cwd\Datamolino\Model\Document\Summary;
+use Cwd\Datamolino\Model\Document\Supplier;
+use Cwd\Datamolino\Model\Document\TaxLine;
 
 class Document
 {
@@ -65,7 +71,7 @@ class Document
     /** @var string|null */
     private $user_file_name;
 
-    /** @var string|null */
+    /** @var int|null */
     private $invoice_type;
 
     /** @var int|null */
@@ -73,6 +79,24 @@ class Document
 
     /** @var Data */
     private $data;
+
+    /** @var BankAccount */
+    private $bank_account;
+
+    /** @var Supplier */
+    private $supplier;
+
+    /** @var Customer */
+    private $customer;
+
+    /** @var Summary */
+    private $summary;
+
+    /** @var TaxLine[] */
+    private $tax_lines = [];
+
+    /** @var Item[] */
+    private $items = [];
 
     /**
      * @return int
@@ -237,18 +261,18 @@ class Document
     }
 
     /**
-     * @return null|string
+     * @return null|int
      */
-    public function getInvoiceType(): ?string
+    public function getInvoiceType(): ?int
     {
         return $this->invoice_type;
     }
 
     /**
-     * @param null|string $invoice_type
+     * @param int|null $invoice_type
      * @return Document
      */
-    public function setInvoiceType(?string $invoice_type): Document
+    public function setInvoiceType(?int $invoice_type): Document
     {
         $this->invoice_type = $invoice_type;
         return $this;
@@ -287,6 +311,114 @@ class Document
     public function setData(Data $data): Document
     {
         $this->data = $data;
+        return $this;
+    }
+
+    /**
+     * @return BankAccount
+     */
+    public function getBankAccount(): BankAccount
+    {
+        return $this->bank_account;
+    }
+
+    /**
+     * @param BankAccount $bank_account
+     * @return Document
+     */
+    public function setBankAccount(BankAccount $bank_account): Document
+    {
+        $this->bank_account = $bank_account;
+        return $this;
+    }
+
+    /**
+     * @return Supplier
+     */
+    public function getSupplier(): Supplier
+    {
+        return $this->supplier;
+    }
+
+    /**
+     * @param Supplier $supplier
+     * @return Document
+     */
+    public function setSupplier(Supplier $supplier): Document
+    {
+        $this->supplier = $supplier;
+        return $this;
+    }
+
+    /**
+     * @return Customer
+     */
+    public function getCustomer(): Customer
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param Customer $customer
+     * @return Document
+     */
+    public function setCustomer(Customer $customer): Document
+    {
+        $this->customer = $customer;
+        return $this;
+    }
+
+    /**
+     * @return Summary
+     */
+    public function getSummary(): Summary
+    {
+        return $this->summary;
+    }
+
+    /**
+     * @param Summary $summary
+     * @return Document
+     */
+    public function setSummary(Summary $summary): Document
+    {
+        $this->summary = $summary;
+        return $this;
+    }
+
+    /**
+     * @return TaxLine[]
+     */
+    public function getTaxLines(): array
+    {
+        return $this->tax_lines;
+    }
+
+    /**
+     * @param TaxLine[] $tax_lines
+     * @return Document
+     */
+    public function setTaxLines(array $tax_lines): Document
+    {
+        $this->tax_lines = $tax_lines;
+        return $this;
+    }
+
+    /**
+     * @return Item[]
+     */
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param Item[] $items
+     * @return Document
+     */
+    public function setItems(array $items): Document
+    {
+        $this->items = $items;
         return $this;
     }
 }

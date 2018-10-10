@@ -7,10 +7,10 @@ namespace Cwd\Datamolino\Model\Document;
 
 class BankAccount
 {
-    /** @var int|null */
+    /** @var string|null */
     private $bban;
 
-    /** @var int|null */
+    /** @var string|null */
     private $bank_code;
 
     /** @var string|null */
@@ -20,36 +20,36 @@ class BankAccount
     private $iban;
 
     /**
-     * @return int|null
+     * @return null|string
      */
-    public function getBban(): ?int
+    public function getBban(): ?string
     {
         return $this->bban;
     }
 
     /**
-     * @param int|null $bban
+     * @param null|string $bban
      * @return BankAccount
      */
-    public function setBban(?int $bban): BankAccount
+    public function setBban(?string $bban): BankAccount
     {
         $this->bban = $bban;
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getBankCode(): ?int
+    public function getBankCode(): ?string
     {
         return $this->bank_code;
     }
 
     /**
-     * @param int|null $bank_code
+     * @param string|null $bank_code
      * @return BankAccount
      */
-    public function setBankCode(?int $bank_code): BankAccount
+    public function setBankCode(?string $bank_code): BankAccount
     {
         $this->bank_code = $bank_code;
         return $this;

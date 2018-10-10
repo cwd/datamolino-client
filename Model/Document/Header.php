@@ -25,7 +25,7 @@ class Header
     /** @var string|null */
     private $specific_symbol;
 
-    /** @var \DateTime */
+    /** @var \DateTime|null */
     private $issue_date;
 
     /** @var \DateTime|null */
@@ -154,7 +154,7 @@ class Header
     /**
      * @return \DateTime
      */
-    public function getIssueDate(): \DateTime
+    public function getIssueDate(): ?\DateTime
     {
         return $this->issue_date;
     }
@@ -163,7 +163,7 @@ class Header
      * @param \DateTime $issue_date
      * @return Header
      */
-    public function setIssueDate(\DateTime $issue_date): Header
+    public function setIssueDate(?\DateTime $issue_date): Header
     {
         $this->issue_date = $issue_date;
         return $this;
