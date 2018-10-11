@@ -244,6 +244,80 @@ class DatamolinoClient
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getApiUrl(): string
+    {
+        return $this->apiUrl;
+    }
+
+    /**
+     * @param string $apiUrl
+     * @return DatamolinoClient
+     */
+    public function setApiUrl(string $apiUrl): DatamolinoClient
+    {
+        $this->apiUrl = $apiUrl;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiVersion(): string
+    {
+        return $this->apiVersion;
+    }
+
+    /**
+     * @param string $apiVersion
+     * @return DatamolinoClient
+     */
+    public function setApiVersion(string $apiVersion): DatamolinoClient
+    {
+        $this->apiVersion = $apiVersion;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiUri(): string
+    {
+        return $this->apiUri;
+    }
+
+    /**
+     * @param string $apiUri
+     * @return DatamolinoClient
+     */
+    public function setApiUri(string $apiUri): DatamolinoClient
+    {
+        $this->apiUri = $apiUri;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTokenUrl(): string
+    {
+        return $this->tokenUrl;
+    }
+
+    /**
+     * @param string $tokenUrl
+     * @return DatamolinoClient
+     */
+    public function setTokenUrl(string $tokenUrl): DatamolinoClient
+    {
+        $this->tokenUrl = $tokenUrl;
+        return $this;
+    }
+
+    
+
     protected function denormalizeObject($hydrationClass, $dataObject, $isList = false)
     {
         $result = [];
