@@ -15,13 +15,13 @@ namespace Cwd\Datamolino\Model\Document;
 
 class Header
 {
-    /** @var string */
+    /** @var string|null */
     private $locale;
 
-    /** @var string */
+    /** @var string|null */
     private $invoice_text;
 
-    /** @var string */
+    /** @var string|null */
     private $invoice_no;
 
     /** @var string|null */
@@ -42,7 +42,7 @@ class Header
     /** @var \DateTime|null */
     private $due_date;
 
-    /** @var string */
+    /** @var string|null */
     private $currency;
 
     /** @var string|null */
@@ -52,19 +52,19 @@ class Header
     private $text;
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getLocale(): string
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
 
     /**
-     * @param string $locale
+     * @param null|string $locale
      *
      * @return Header
      */
-    public function setLocale(string $locale): Header
+    public function setLocale(?string $locale): Header
     {
         $this->locale = $locale;
 
@@ -72,19 +72,19 @@ class Header
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getInvoiceText(): string
+    public function getInvoiceText(): ?string
     {
         return $this->invoice_text;
     }
 
     /**
-     * @param string $invoice_text
+     * @param null|string $invoice_text
      *
      * @return Header
      */
-    public function setInvoiceText(string $invoice_text): Header
+    public function setInvoiceText(?string $invoice_text): Header
     {
         $this->invoice_text = $invoice_text;
 
@@ -92,19 +92,19 @@ class Header
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getInvoiceNo(): string
+    public function getInvoiceNo(): ?string
     {
         return $this->invoice_no;
     }
 
     /**
-     * @param string $invoice_no
+     * @param null|string $invoice_no
      *
      * @return Header
      */
-    public function setInvoiceNo(string $invoice_no): Header
+    public function setInvoiceNo(?string $invoice_no): Header
     {
         $this->invoice_no = $invoice_no;
 
@@ -172,7 +172,7 @@ class Header
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getIssueDate(): ?\DateTime
     {
@@ -180,7 +180,7 @@ class Header
     }
 
     /**
-     * @param \DateTime $issue_date
+     * @param \DateTime|null $issue_date
      *
      * @return Header
      */
@@ -232,19 +232,19 @@ class Header
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getCurrency(): string
+    public function getCurrency(): ?string
     {
         return $this->currency;
     }
 
     /**
-     * @param string $currency
+     * @param null|string $currency
      *
      * @return Header
      */
-    public function setCurrency(string $currency): Header
+    public function setCurrency(?string $currency): Header
     {
         $this->currency = $currency;
 

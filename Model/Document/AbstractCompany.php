@@ -15,7 +15,7 @@ namespace Cwd\Datamolino\Model\Document;
 
 abstract class AbstractCompany
 {
-    /** @var int */
+    /** @var int|null */
     protected $id;
 
     /** @var string|null */
@@ -39,7 +39,7 @@ abstract class AbstractCompany
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

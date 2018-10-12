@@ -62,7 +62,7 @@ class Document
     private $created_at;
 
     /** @var \DateTime|null */
-    private $last_modifed_at;
+    private $last_modified_at;
 
     /** @var string */
     private $state;
@@ -169,19 +169,19 @@ class Document
     /**
      * @return \DateTime|null
      */
-    public function getLastModifedAt(): ?\DateTime
+    public function getLastModifiedAt(): ?\DateTime
     {
-        return $this->last_modifed_at;
+        return $this->last_modified_at;
     }
 
     /**
-     * @param \DateTime|null $last_modifed_at
+     * @param \DateTime|null $last_modified_at
      *
      * @return Document
      */
-    public function setLastModifedAt(?\DateTime $last_modifed_at): Document
+    public function setLastModifiedAt(?\DateTime $last_modified_at): Document
     {
-        $this->last_modifed_at = $last_modifed_at;
+        $this->last_modified_at = $last_modified_at;
 
         return $this;
     }
