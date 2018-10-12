@@ -15,9 +15,14 @@ namespace Cwd\Datamolino;
 
 use Cwd\Datamolino\Model\Agenda;
 use Cwd\Datamolino\Model\Document;
+use Cwd\Datamolino\Model\OriginalFile;
+use Cwd\Datamolino\Model\UploadFile;
+use Cwd\Datamolino\Model\DocumentFile;
 use Cwd\Datamolino\Model\User;
 use GuzzleHttp\Psr7\Request;
 use Http\Client\HttpClient;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\File\File as FileInfo;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
@@ -27,11 +32,12 @@ use Symfony\Component\Serializer\Serializer;
 
 class DatamolinoClient
 {
+    public const PAYLOAD_LIMIT = 1024 * 1024 * 20; // 20MB
+
     private $apiUrl = 'https://beta.datamolino.com';
     private $apiVersion = 'v1_2';
     private $apiUri;
     private $tokenUrl;
-
     private $token;
 
     /** @var HttpClient */
@@ -50,7 +56,168 @@ class DatamolinoClient
         $this->serializer = new Serializer([new DateTimeNormalizer(), $normalizer], ['json' => new JsonEncoder()]);
     }
 
-    public function getDocuments($agendaId, ?\DateTime $modifiedSince = null, array $states = [], $page = 1, $type = Document::DOCTYPE_PURCHASE, array $ids = [])
+    /**
+     * @param string|Finder $finder    Location of Files or Finder Instance
+     * @param int           $agendaId
+     * @param string        $type
+     * @param bool          $fileSplit
+     * @param bool          $lacyLoad
+     *
+     * @return Document[]
+     *
+     * @throws \Http\Client\Exception
+     */
+    public function createDocuments($finder, int $agendaId, string $type = Document::DOCTYPE_PURCHASE, $fileSplit = false, $lacyLoad = false): array
+    {
+        $currentFileSize = 0;
+        $resultDocuments = [];
+        $documentFiles = [];
+
+        if (!$finder instanceof Finder) {
+            $finder = (new Finder())->in($finder);
+        }
+
+        foreach ($finder as $file) {
+            $documentFile = new DocumentFile();
+            $documentFile->setType($type)
+                         ->setAgendaId($agendaId)
+                         ->setFileSplit($fileSplit);
+
+            $mimeType = (new FileInfo($file->getPathname()))->getMimeType();
+            $currentFileSize += $file->getSize();
+            $documentFile->setFile(
+                new UploadFile($file->getFilename(), $mimeType, $file->getContents())
+            );
+
+            $documentFiles[] = $documentFile;
+
+            if ($currentFileSize >= self::PAYLOAD_LIMIT) {
+                $resultDocuments += $this->sendDocuments($documentFiles, $lacyLoad);
+                $documentFiles = [];
+            }
+        }
+
+        if (count($documentFiles) > 0) {
+            $resultDocuments += $this->sendDocuments($documentFiles, $lacyLoad);
+        }
+
+        return $resultDocuments;
+    }
+
+    /**
+     * @param string $fileUri
+     * @param int    $agendaId
+     * @param string $filename
+     * @param string $type
+     * @param bool   $fileSplit
+     * @param bool   $lacyLoad
+     *
+     * @return Document
+     *
+     * @throws \Http\Client\Exception
+     */
+    public function createDocument($fileUri, $agendaId, $filename, $type = Document::DOCTYPE_PURCHASE, $fileSplit = false, $lacyLoad = false): Document
+    {
+        $file = new FileInfo($fileUri);
+        $mimeType = $file->getMimeType();
+
+        $documentFile = new DocumentFile();
+        $documentFile->setType($type)
+            ->setAgendaId($agendaId)
+            ->setFileSplit($fileSplit)
+            ->setFile(
+                new UploadFile($file->getFilename(), $mimeType, file_get_contents($file->getPathname()))
+            )
+        ;
+
+        return current($this->sendDocuments([$documentFile], $lacyLoad));
+    }
+
+    /**
+     * @param DocumentFile[] $files
+     *
+     * @return array
+     *
+     * @throws \Http\Client\Exception
+     */
+    public function sendDocuments(array $files, $lacyLoad = true)
+    {
+        $payload = $this->serializer->serialize(['documents' => $files], 'json');
+        $documents = $this->call($payload, null, 'documents', Document::class, true, 'POST');
+
+        if ($lacyLoad) {
+            $ids = [];
+            /** @var Document $document */
+            foreach ($documents as $document) {
+                $ids[] = $document->getId();
+            }
+
+            return $this->getDocuments(current($files)->getAgendaId(), $ids);
+        }
+
+        return $documents;
+    }
+
+    /**
+     * @param $document
+     *
+     * @return OriginalFile
+     *
+     * @throws \Http\Client\Exception
+     */
+    public function getDocumentFile($document): OriginalFile
+    {
+        if ($document instanceof Document) {
+            $document = $document->getId();
+        }
+
+        return $this->call(null, $document, 'documents', OriginalFile::class, false, 'GET', '/original_file');
+    }
+
+    /**
+     * @param int|Document $document
+     *
+     * @throws \Http\Client\Exception
+     */
+    public function deleteDocument($document): void
+    {
+        if ($document instanceof Document) {
+            $document = $document->getId();
+        }
+
+        $this->call(null, $document, 'documents', null, false, 'DELETE');
+    }
+
+    /**
+     * @param Document|int $document
+     * @param string       $text
+     *
+     * @throws \Http\Client\Exception
+     */
+    public function repairDocument($document, $text): void
+    {
+        if ($document instanceof Document) {
+            $document = $document->getId();
+        }
+
+        $this->call(null, $document, 'documents', OriginalFile::class, false, 'POST', sprintf(
+            '/repair?repair_description=%s', urlencode($text))
+        );
+    }
+
+    /**
+     * @param int            $agendaId
+     * @param array          $ids
+     * @param \DateTime|null $modifiedSince
+     * @param array          $states
+     * @param int            $page
+     * @param string         $type
+     *
+     * @return mixed
+     *
+     * @throws \Http\Client\Exception
+     */
+    public function getDocuments($agendaId, array $ids = [], ?\DateTime $modifiedSince = null, array $states = [], $page = 1, $type = Document::DOCTYPE_PURCHASE)
     {
         $queryString = [
             sprintf('agenda_id=%s', $agendaId),
@@ -120,19 +287,6 @@ class DatamolinoClient
     }
 
     /**
-     * @return User
-     *
-     * @throws \Http\Client\Exception
-     */
-    public function getMe(): User
-    {
-        // Result is different - denormalize by hand
-        $data = $this->call(null, null, 'me', null, false, 'GET');
-
-        return $this->denormalizeObject(User::class, [$data], false);
-    }
-
-    /**
      * @param Agenda $agenda
      *
      * @return void|
@@ -177,12 +331,13 @@ class DatamolinoClient
      * @param string|null     $hydrationClass
      * @param bool            $isList
      * @param string          $method
+     * @param string|null     $urlExtension   - Special case only needed when retrieving original file!
      *
      * @return mixed
      *
      * @throws \Http\Client\Exception
      */
-    protected function call($payload = null, $id = null, $endpoint = '', $hydrationClass = null, $isList = false, $method = 'POST')
+    protected function call($payload = null, $id = null, $endpoint = '', $hydrationClass = null, $isList = false, $method = 'POST', $urlExtension = null)
     {
         if (null === $this->token) {
             throw new \Exception('Token not set');
@@ -192,7 +347,12 @@ class DatamolinoClient
             $format = (is_int($id)) ? '%s%s/%s' : '%s%s%s';
             $uri = sprintf($format, $this->apiUri, $endpoint, $id);
         } else {
-            $uri = $this->apiUri.$endpoint;
+            $uri = (null !== $id) ? sprintf('%s%s/%s', $this->apiUri, $endpoint, $id) : $this->apiUri.$endpoint;
+        }
+
+        /* Special case only needed for retrieve original file */
+        if (null !== $urlExtension) {
+            $uri .= $urlExtension;
         }
 
         $request = new Request($method, $uri, [
@@ -204,13 +364,13 @@ class DatamolinoClient
         $responseBody = $response->getBody()->getContents();
         $responseData = json_decode($responseBody);
 
+        if ('dev' === getenv('APP_ENV')) {
+            dump([$request, $responseData]);
+        }
+
         if ($response->getStatusCode() > 299) {
             $message = isset($responseData->message) ? $responseData->message : 'Unknown';
             throw new \Exception(sprintf('Error on request %s: %s', $response->getStatusCode(), $message));
-        }
-
-        if ('dev' === getenv('APP_ENV')) {
-            dump($responseData);
         }
 
         if (null !== $hydrationClass && class_exists($hydrationClass) && isset($responseData->$endpoint)) {
