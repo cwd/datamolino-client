@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of datamolino client.
+ *
+ * (c) 2018 cwd.at GmbH <office@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Cwd\Datamolino;
@@ -17,7 +27,6 @@ use Symfony\Component\Serializer\Serializer;
 
 class DatamolinoClient
 {
-
     private $apiUrl = 'https://beta.datamolino.com';
     private $apiVersion = 'v1_2';
     private $apiUri;
@@ -28,7 +37,7 @@ class DatamolinoClient
     /** @var HttpClient */
     private $client;
 
-    /** @var Serializer  */
+    /** @var Serializer */
     private $serializer;
 
     public function __construct(HttpClient $client)
@@ -49,7 +58,7 @@ class DatamolinoClient
             sprintf('type=%s', $type),
         ];
 
-        if ($modifiedSince !== null) {
+        if (null !== $modifiedSince) {
             $queryString[] = sprintf('modified_since=%s', $modifiedSince->format('Y-m-d\TH:i:s\Z'));
         }
 
@@ -70,16 +79,19 @@ class DatamolinoClient
 
     /**
      * @return Agenda[]
+     *
      * @throws \Http\Client\Exception
      */
     public function getAgendas()
     {
-        return $this->call(null, null,'agendas', Agenda::class, true, 'GET');
+        return $this->call(null, null, 'agendas', Agenda::class, true, 'GET');
     }
 
     /**
      * @param int $id
+     *
      * @return Agenda
+     *
      * @throws \Http\Client\Exception
      */
     public function getAgenda(int $id): Agenda
@@ -89,8 +101,10 @@ class DatamolinoClient
 
     /**
      * @param Agenda $agenda
-     * @param bool $lazyLoad if false the agenda object only holds the ID
+     * @param bool   $lazyLoad if false the agenda object only holds the ID
+     *
      * @return Agenda
+     *
      * @throws \Http\Client\Exception
      */
     public function createAgenda(Agenda $agenda, $lazyLoad = false): Agenda
@@ -106,50 +120,71 @@ class DatamolinoClient
     }
 
     /**
-     * @param Agenda $agenda
-     * @return void|
-     * @throws \Http\Client\Exception
-     */
-    public function updateAgenda(Agenda $agenda)
-    {
-        $payload = $this->serializer->serialize(['agendas' => [$agenda]], 'json');
-        $this->call($payload, $agenda->getId(),'agendas', null, false, 'PUT');
-    }
-
-    /**
-     * @param Agenda $agenda
-     * @return mixed
-     * @throws \Http\Client\Exception
-     */
-    public function deleteAgenda(int $id): void
-    {
-        $this->call(null, $id,'agendas', null, false, 'DELETE');
-    }
-    
-    /**
      * @return User
+     *
      * @throws \Http\Client\Exception
      */
     public function getMe(): User
     {
         // Result is different - denormalize by hand
         $data = $this->call(null, null, 'me', null, false, 'GET');
-        return $this->denormalizeObject(User::class, [$data],false);
+
+        return $this->denormalizeObject(User::class, [$data], false);
     }
 
     /**
-     * @param string|null $payload
-     * @param int|string|null $id
-     * @param string $endpoint
-     * @param string|null $hydrationClass
-     * @param bool $isList
-     * @param string $method
+     * @param Agenda $agenda
+     *
+     * @return void|
+     *
+     * @throws \Http\Client\Exception
+     */
+    public function updateAgenda(Agenda $agenda)
+    {
+        $payload = $this->serializer->serialize(['agendas' => [$agenda]], 'json');
+        $this->call($payload, $agenda->getId(), 'agendas', null, false, 'PUT');
+    }
+
+    /**
+     * @param Agenda $agenda
+     *
      * @return mixed
+     *
+     * @throws \Http\Client\Exception
+     */
+    public function deleteAgenda(int $id): void
+    {
+        $this->call(null, $id, 'agendas', null, false, 'DELETE');
+    }
+
+    /**
+     * @return User
+     *
+     * @throws \Http\Client\Exception
+     */
+    public function getMe(): User
+    {
+        // Result is different - denormalize by hand
+        $data = $this->call(null, null, 'me', null, false, 'GET');
+
+        return $this->denormalizeObject(User::class, [$data], false);
+    }
+
+    /**
+     * @param string|null     $payload
+     * @param int|string|null $id
+     * @param string          $endpoint
+     * @param string|null     $hydrationClass
+     * @param bool            $isList
+     * @param string          $method
+     *
+     * @return mixed
+     *
      * @throws \Http\Client\Exception
      */
     protected function call($payload = null, $id = null, $endpoint = '', $hydrationClass = null, $isList = false, $method = 'POST')
     {
-        if ($this->token === null) {
+        if (null === $this->token) {
             throw new \Exception('Token not set');
         }
 
@@ -174,15 +209,15 @@ class DatamolinoClient
             throw new \Exception(sprintf('Error on request %s: %s', $response->getStatusCode(), $message));
         }
 
-        if (getenv('APP_ENV') === 'dev') {
+        if ('dev' === getenv('APP_ENV')) {
             dump($responseData);
         }
 
-        if ($hydrationClass !== null && class_exists($hydrationClass) && isset($responseData->$endpoint)) {
+        if (null !== $hydrationClass && class_exists($hydrationClass) && isset($responseData->$endpoint)) {
             return $this->denormalizeObject($hydrationClass, $responseData->$endpoint, $isList);
-        } elseif ($hydrationClass !== null && !class_exists($hydrationClass)) {
+        } elseif (null !== $hydrationClass && !class_exists($hydrationClass)) {
             throw new \Exception(sprintf('HydrationClass (%s) does not exist', $hydrationClass));
-        } elseif ($hydrationClass !== null && !isset($responseData->$endpoint)) {
+        } elseif (null !== $hydrationClass && !isset($responseData->$endpoint)) {
             throw new \Exception(sprintf('Datapoint (%s) does not exist', $endpoint));
         }
 
@@ -194,6 +229,7 @@ class DatamolinoClient
      * @param string $clientSecret
      * @param string $username
      * @param string $password
+     *
      * @throws \Http\Client\Exception
      * @ToDo Handle Token storage
      */
@@ -218,6 +254,7 @@ class DatamolinoClient
      * @param string $clientId
      * @param string $clientSecret
      * @param string $refreshToken
+     *
      * @throws \Http\Client\Exception
      * @ToDo Handle Token storage
      */
@@ -240,6 +277,7 @@ class DatamolinoClient
     public function setToken($token): DatamolinoClient
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -253,11 +291,13 @@ class DatamolinoClient
 
     /**
      * @param string $apiUrl
+     *
      * @return DatamolinoClient
      */
     public function setApiUrl(string $apiUrl): DatamolinoClient
     {
         $this->apiUrl = $apiUrl;
+
         return $this;
     }
 
@@ -271,11 +311,13 @@ class DatamolinoClient
 
     /**
      * @param string $apiVersion
+     *
      * @return DatamolinoClient
      */
     public function setApiVersion(string $apiVersion): DatamolinoClient
     {
         $this->apiVersion = $apiVersion;
+
         return $this;
     }
 
@@ -289,11 +331,13 @@ class DatamolinoClient
 
     /**
      * @param string $apiUri
+     *
      * @return DatamolinoClient
      */
     public function setApiUri(string $apiUri): DatamolinoClient
     {
         $this->apiUri = $apiUri;
+
         return $this;
     }
 
@@ -307,15 +351,15 @@ class DatamolinoClient
 
     /**
      * @param string $tokenUrl
+     *
      * @return DatamolinoClient
      */
     public function setTokenUrl(string $tokenUrl): DatamolinoClient
     {
         $this->tokenUrl = $tokenUrl;
+
         return $this;
     }
-
-
 
     protected function denormalizeObject($hydrationClass, $dataObject, $isList = false)
     {

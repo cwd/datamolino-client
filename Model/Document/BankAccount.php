@@ -1,9 +1,17 @@
 <?php
+
+/*
+ * This file is part of datamolino client.
+ *
+ * (c) 2018 cwd.at GmbH <office@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
-
 namespace Cwd\Datamolino\Model\Document;
-
 
 class BankAccount
 {
@@ -29,11 +37,13 @@ class BankAccount
 
     /**
      * @param null|string $bban
+     *
      * @return BankAccount
      */
     public function setBban(?string $bban): BankAccount
     {
         $this->bban = $bban;
+
         return $this;
     }
 
@@ -47,11 +57,13 @@ class BankAccount
 
     /**
      * @param string|null $bank_code
+     *
      * @return BankAccount
      */
     public function setBankCode(?string $bank_code): BankAccount
     {
         $this->bank_code = $bank_code;
+
         return $this;
     }
 
@@ -65,11 +77,13 @@ class BankAccount
 
     /**
      * @param null|string $bic
+     *
      * @return BankAccount
      */
     public function setBic(?string $bic): BankAccount
     {
         $this->bic = $bic;
+
         return $this;
     }
 
@@ -83,11 +97,13 @@ class BankAccount
 
     /**
      * @param null|string $iban
+     *
      * @return BankAccount
      */
     public function setIban(?string $iban): BankAccount
     {
         $this->iban = $iban;
+
         return $this;
     }
 }

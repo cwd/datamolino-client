@@ -1,9 +1,17 @@
 <?php
+
+/*
+ * This file is part of datamolino client.
+ *
+ * (c) 2018 cwd.at GmbH <office@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
-
 namespace Cwd\Datamolino\Model\Document;
-
 
 class Header
 {
@@ -53,11 +61,13 @@ class Header
 
     /**
      * @param string $locale
+     *
      * @return Header
      */
     public function setLocale(string $locale): Header
     {
         $this->locale = $locale;
+
         return $this;
     }
 
@@ -71,11 +81,13 @@ class Header
 
     /**
      * @param string $invoice_text
+     *
      * @return Header
      */
     public function setInvoiceText(string $invoice_text): Header
     {
         $this->invoice_text = $invoice_text;
+
         return $this;
     }
 
@@ -89,11 +101,13 @@ class Header
 
     /**
      * @param string $invoice_no
+     *
      * @return Header
      */
     public function setInvoiceNo(string $invoice_no): Header
     {
         $this->invoice_no = $invoice_no;
+
         return $this;
     }
 
@@ -107,11 +121,13 @@ class Header
 
     /**
      * @param null|string $sepa_reference
+     *
      * @return Header
      */
     public function setSepaReference(?string $sepa_reference): Header
     {
         $this->sepa_reference = $sepa_reference;
+
         return $this;
     }
 
@@ -125,11 +141,13 @@ class Header
 
     /**
      * @param null|string $variable_symbol
+     *
      * @return Header
      */
     public function setVariableSymbol(?string $variable_symbol): Header
     {
         $this->variable_symbol = $variable_symbol;
+
         return $this;
     }
 
@@ -143,11 +161,13 @@ class Header
 
     /**
      * @param null|string $specific_symbol
+     *
      * @return Header
      */
     public function setSpecificSymbol(?string $specific_symbol): Header
     {
         $this->specific_symbol = $specific_symbol;
+
         return $this;
     }
 
@@ -161,11 +181,13 @@ class Header
 
     /**
      * @param \DateTime $issue_date
+     *
      * @return Header
      */
     public function setIssueDate(?\DateTime $issue_date): Header
     {
         $this->issue_date = $issue_date;
+
         return $this;
     }
 
@@ -179,11 +201,13 @@ class Header
 
     /**
      * @param \DateTime|null $tax_date
+     *
      * @return Header
      */
     public function setTaxDate(?\DateTime $tax_date): Header
     {
         $this->tax_date = $tax_date;
+
         return $this;
     }
 
@@ -197,11 +221,13 @@ class Header
 
     /**
      * @param \DateTime|null $due_date
+     *
      * @return Header
      */
     public function setDueDate(?\DateTime $due_date): Header
     {
         $this->due_date = $due_date;
+
         return $this;
     }
 
@@ -215,11 +241,13 @@ class Header
 
     /**
      * @param string $currency
+     *
      * @return Header
      */
     public function setCurrency(string $currency): Header
     {
         $this->currency = $currency;
+
         return $this;
     }
 
@@ -233,11 +261,13 @@ class Header
 
     /**
      * @param null|string $currency_rate
+     *
      * @return Header
      */
     public function setCurrencyRate(?string $currency_rate): Header
     {
         $this->currency_rate = $currency_rate;
+
         return $this;
     }
 
@@ -251,11 +281,13 @@ class Header
 
     /**
      * @param null|string $text
+     *
      * @return Header
      */
     public function setText(?string $text): Header
     {
         $this->text = $text;
+
         return $this;
     }
 }

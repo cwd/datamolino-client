@@ -1,9 +1,17 @@
 <?php
 
+/*
+ * This file is part of datamolino client.
+ *
+ * (c) 2018 cwd.at GmbH <office@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Cwd\Datamolino\Model;
-
 
 class Address
 {
@@ -32,11 +40,13 @@ class Address
 
     /**
      * @param null|string $street
+     *
      * @return Address
      */
     public function setStreet(?string $street): Address
     {
         $this->street = $street;
+
         return $this;
     }
 
@@ -50,11 +60,13 @@ class Address
 
     /**
      * @param null|string $building_no
+     *
      * @return Address
      */
     public function setBuildingNo(?string $building_no): Address
     {
         $this->building_no = $building_no;
+
         return $this;
     }
 
@@ -68,11 +80,13 @@ class Address
 
     /**
      * @param null|string $city
+     *
      * @return Address
      */
     public function setCity(?string $city): Address
     {
         $this->city = $city;
+
         return $this;
     }
 
@@ -86,11 +100,13 @@ class Address
 
     /**
      * @param null|string $postal_code
+     *
      * @return Address
      */
     public function setPostalCode(?string $postal_code): Address
     {
         $this->postal_code = $postal_code;
+
         return $this;
     }
 
@@ -104,11 +120,13 @@ class Address
 
     /**
      * @param null|string $country
+     *
      * @return Address
      */
     public function setCountry(?string $country): Address
     {
         $this->country = $country;
+
         return $this;
     }
 }
