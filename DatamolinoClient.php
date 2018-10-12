@@ -14,7 +14,6 @@ use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class DatamolinoClient
 {
@@ -107,17 +106,6 @@ class DatamolinoClient
     }
 
     /**
-     * @return User
-     * @throws \Http\Client\Exception
-     */
-    public function getMe(): User
-    {
-        // Result is different - denormalize by hand
-        $data = $this->call(null, null, 'me', null, false, 'GET');
-        return $this->denormalizeObject(User::class, [$data],false);
-    }
-
-    /**
      * @param Agenda $agenda
      * @return void|
      * @throws \Http\Client\Exception
@@ -136,6 +124,17 @@ class DatamolinoClient
     public function deleteAgenda(int $id): void
     {
         $this->call(null, $id,'agendas', null, false, 'DELETE');
+    }
+    
+    /**
+     * @return User
+     * @throws \Http\Client\Exception
+     */
+    public function getMe(): User
+    {
+        // Result is different - denormalize by hand
+        $data = $this->call(null, null, 'me', null, false, 'GET');
+        return $this->denormalizeObject(User::class, [$data],false);
     }
 
     /**
@@ -316,7 +315,7 @@ class DatamolinoClient
         return $this;
     }
 
-    
+
 
     protected function denormalizeObject($hydrationClass, $dataObject, $isList = false)
     {
