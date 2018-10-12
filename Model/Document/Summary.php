@@ -1,9 +1,17 @@
 <?php
+
+/*
+ * This file is part of datamolino client.
+ *
+ * (c) 2018 cwd.at GmbH <office@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
-
 namespace Cwd\Datamolino\Model\Document;
-
 
 class Summary
 {
@@ -35,11 +43,13 @@ class Summary
 
     /**
      * @param float|null $payment_amount
+     *
      * @return Summary
      */
     public function setPaymentAmount(?float $payment_amount): Summary
     {
         $this->payment_amount = $payment_amount;
+
         return $this;
     }
 
@@ -53,11 +63,13 @@ class Summary
 
     /**
      * @param float $paid_deposits
+     *
      * @return Summary
      */
     public function setPaidDeposits(float $paid_deposits): Summary
     {
         $this->paid_deposits = $paid_deposits;
+
         return $this;
     }
 
@@ -71,11 +83,13 @@ class Summary
 
     /**
      * @param float $rounding
+     *
      * @return Summary
      */
     public function setRounding(float $rounding): Summary
     {
         $this->rounding = $rounding;
+
         return $this;
     }
 
@@ -89,11 +103,13 @@ class Summary
 
     /**
      * @param float $sub_total
+     *
      * @return Summary
      */
     public function setSubTotal(float $sub_total): Summary
     {
         $this->sub_total = $sub_total;
+
         return $this;
     }
 
@@ -107,11 +123,13 @@ class Summary
 
     /**
      * @param float $vat_total
+     *
      * @return Summary
      */
     public function setVatTotal(float $vat_total): Summary
     {
         $this->vat_total = $vat_total;
+
         return $this;
     }
 
@@ -125,11 +143,13 @@ class Summary
 
     /**
      * @param float $total
+     *
      * @return Summary
      */
     public function setTotal(float $total): Summary
     {
         $this->total = $total;
+
         return $this;
     }
 }

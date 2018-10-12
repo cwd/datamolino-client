@@ -1,9 +1,17 @@
 <?php
+
+/*
+ * This file is part of datamolino client.
+ *
+ * (c) 2018 cwd.at GmbH <office@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
-
 namespace Cwd\Datamolino\Model\Document;
-
 
 class Item
 {
@@ -44,11 +52,13 @@ class Item
 
     /**
      * @param null|string $code
+     *
      * @return Item
      */
     public function setCode(?string $code): Item
     {
         $this->code = $code;
+
         return $this;
     }
 
@@ -62,11 +72,13 @@ class Item
 
     /**
      * @param null|string $name
+     *
      * @return Item
      */
     public function setName(?string $name): Item
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -80,11 +92,13 @@ class Item
 
     /**
      * @param int|null $quantity
+     *
      * @return Item
      */
     public function setQuantity(?int $quantity): Item
     {
         $this->quantity = $quantity;
+
         return $this;
     }
 
@@ -98,11 +112,13 @@ class Item
 
     /**
      * @param null|string $unit
+     *
      * @return Item
      */
     public function setUnit(?string $unit): Item
     {
         $this->unit = $unit;
+
         return $this;
     }
 
@@ -116,11 +132,13 @@ class Item
 
     /**
      * @param null|string $unit_price
+     *
      * @return Item
      */
     public function setUnitPrice(?string $unit_price): Item
     {
         $this->unit_price = $unit_price;
+
         return $this;
     }
 
@@ -134,11 +152,13 @@ class Item
 
     /**
      * @param int $tax_rate
+     *
      * @return Item
      */
     public function setTaxRate(int $tax_rate): Item
     {
         $this->tax_rate = $tax_rate;
+
         return $this;
     }
 
@@ -152,11 +172,13 @@ class Item
 
     /**
      * @param float $subtotal
+     *
      * @return Item
      */
     public function setSubtotal(float $subtotal): Item
     {
         $this->subtotal = $subtotal;
+
         return $this;
     }
 
@@ -170,11 +192,13 @@ class Item
 
     /**
      * @param float $tax
+     *
      * @return Item
      */
     public function setTax(float $tax): Item
     {
         $this->tax = $tax;
+
         return $this;
     }
 
@@ -188,11 +212,13 @@ class Item
 
     /**
      * @param float $total
+     *
      * @return Item
      */
     public function setTotal(float $total): Item
     {
         $this->total = $total;
+
         return $this;
     }
 }

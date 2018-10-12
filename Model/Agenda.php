@@ -1,8 +1,17 @@
 <?php
+
+/*
+ * This file is part of datamolino client.
+ *
+ * (c) 2018 cwd.at GmbH <office@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Cwd\Datamolino\Model;
-
 
 class Agenda
 {
@@ -43,11 +52,13 @@ class Agenda
 
     /**
      * @param int|null $id
+     *
      * @return Agenda
      */
     public function setId(?int $id): Agenda
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -61,11 +72,13 @@ class Agenda
 
     /**
      * @param null|string $name
+     *
      * @return Agenda
      */
     public function setName(?string $name): Agenda
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -79,11 +92,13 @@ class Agenda
 
     /**
      * @param null|string $company_id
+     *
      * @return Agenda
      */
     public function setCompanyId(?string $company_id): Agenda
     {
         $this->company_id = $company_id;
+
         return $this;
     }
 
@@ -97,11 +112,13 @@ class Agenda
 
     /**
      * @param null|string $company_tax_id
+     *
      * @return Agenda
      */
     public function setCompanyTaxId(?string $company_tax_id): Agenda
     {
         $this->company_tax_id = $company_tax_id;
+
         return $this;
     }
 
@@ -115,11 +132,13 @@ class Agenda
 
     /**
      * @param null|string $company_vat_id
+     *
      * @return Agenda
      */
     public function setCompanyVatId(?string $company_vat_id): Agenda
     {
         $this->company_vat_id = $company_vat_id;
+
         return $this;
     }
 
@@ -133,11 +152,13 @@ class Agenda
 
     /**
      * @param string $home_currency
+     *
      * @return Agenda
      */
     public function setHomeCurrency(string $home_currency): Agenda
     {
         $this->home_currency = $home_currency;
+
         return $this;
     }
 
@@ -151,11 +172,13 @@ class Agenda
 
     /**
      * @param null|string $email_alias
+     *
      * @return Agenda
      */
     public function setEmailAlias(?string $email_alias): Agenda
     {
         $this->email_alias = $email_alias;
+
         return $this;
     }
 
@@ -169,11 +192,13 @@ class Agenda
 
     /**
      * @param null|string $email_whitelist
+     *
      * @return Agenda
      */
     public function setEmailWhitelist(?string $email_whitelist): Agenda
     {
         $this->email_whitelist = $email_whitelist;
+
         return $this;
     }
 
@@ -187,13 +212,13 @@ class Agenda
 
     /**
      * @param Address|null $address
+     *
      * @return Agenda
      */
     public function setAddress(?Address $address): Agenda
     {
         $this->address = $address;
+
         return $this;
     }
-
-
 }

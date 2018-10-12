@@ -1,9 +1,17 @@
 <?php
+
+/*
+ * This file is part of datamolino client.
+ *
+ * (c) 2018 cwd.at GmbH <office@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
-
 namespace Cwd\Datamolino\Model\Document;
-
 
 abstract class AbstractCompany
 {
@@ -38,14 +46,16 @@ abstract class AbstractCompany
 
     /**
      * @param mixed $id
+     *
      * @return AbstractCompany
      */
     public function setId($id): AbstractCompany
     {
-        if ($id == '') {
+        if ('' == $id) {
             return $this;
         }
         $this->id = intval($id);
+
         return $this;
     }
 
@@ -59,11 +69,13 @@ abstract class AbstractCompany
 
     /**
      * @param null|string $tax_id
+     *
      * @return AbstractCompany
      */
     public function setTaxId(?string $tax_id): AbstractCompany
     {
         $this->tax_id = $tax_id;
+
         return $this;
     }
 
@@ -77,11 +89,13 @@ abstract class AbstractCompany
 
     /**
      * @param null|string $vat_id
+     *
      * @return AbstractCompany
      */
     public function setVatId(?string $vat_id): AbstractCompany
     {
         $this->vat_id = $vat_id;
+
         return $this;
     }
 
@@ -95,11 +109,13 @@ abstract class AbstractCompany
 
     /**
      * @param null|string $street
+     *
      * @return AbstractCompany
      */
     public function setStreet(?string $street): AbstractCompany
     {
         $this->street = $street;
+
         return $this;
     }
 
@@ -113,11 +129,13 @@ abstract class AbstractCompany
 
     /**
      * @param null|string $city
+     *
      * @return AbstractCompany
      */
     public function setCity(?string $city): AbstractCompany
     {
         $this->city = $city;
+
         return $this;
     }
 
@@ -131,11 +149,13 @@ abstract class AbstractCompany
 
     /**
      * @param null|string $postal_code
+     *
      * @return AbstractCompany
      */
     public function setPostalCode(?string $postal_code): AbstractCompany
     {
         $this->postal_code = $postal_code;
+
         return $this;
     }
 
@@ -149,11 +169,13 @@ abstract class AbstractCompany
 
     /**
      * @param null|string $country
+     *
      * @return AbstractCompany
      */
     public function setCountry(?string $country): AbstractCompany
     {
         $this->country = $country;
+
         return $this;
     }
 }

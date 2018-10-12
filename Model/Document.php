@@ -1,9 +1,17 @@
 <?php
+
+/*
+ * This file is part of datamolino client.
+ *
+ * (c) 2018 cwd.at GmbH <office@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
-
 namespace Cwd\Datamolino\Model;
-
 
 use Cwd\Datamolino\Model\Document\BankAccount;
 use Cwd\Datamolino\Model\Document\Customer;
@@ -108,11 +116,13 @@ class Document
 
     /**
      * @param int $id
+     *
      * @return Document
      */
     public function setId(int $id): Document
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -126,11 +136,13 @@ class Document
 
     /**
      * @param string $type
+     *
      * @return Document
      */
     public function setType(string $type): Document
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -144,11 +156,13 @@ class Document
 
     /**
      * @param \DateTime|null $created_at
+     *
      * @return Document
      */
     public function setCreatedAt(?\DateTime $created_at): Document
     {
         $this->created_at = $created_at;
+
         return $this;
     }
 
@@ -162,11 +176,13 @@ class Document
 
     /**
      * @param \DateTime|null $last_modifed_at
+     *
      * @return Document
      */
     public function setLastModifedAt(?\DateTime $last_modifed_at): Document
     {
         $this->last_modifed_at = $last_modifed_at;
+
         return $this;
     }
 
@@ -180,11 +196,13 @@ class Document
 
     /**
      * @param string $state
+     *
      * @return Document
      */
     public function setState(string $state): Document
     {
         $this->state = $state;
+
         return $this;
     }
 
@@ -198,11 +216,13 @@ class Document
 
     /**
      * @param null|string $verificator_response
+     *
      * @return Document
      */
     public function setVerificatorResponse(?string $verificator_response): Document
     {
         $this->verificator_response = $verificator_response;
+
         return $this;
     }
 
@@ -216,11 +236,13 @@ class Document
 
     /**
      * @param null|string $preview
+     *
      * @return Document
      */
     public function setPreview(?string $preview): Document
     {
         $this->preview = $preview;
+
         return $this;
     }
 
@@ -234,11 +256,13 @@ class Document
 
     /**
      * @param null|string $original
+     *
      * @return Document
      */
     public function setOriginal(?string $original): Document
     {
         $this->original = $original;
+
         return $this;
     }
 
@@ -252,11 +276,13 @@ class Document
 
     /**
      * @param null|string $user_file_name
+     *
      * @return Document
      */
     public function setUserFileName(?string $user_file_name): Document
     {
         $this->user_file_name = $user_file_name;
+
         return $this;
     }
 
@@ -270,11 +296,13 @@ class Document
 
     /**
      * @param int|null $invoice_type
+     *
      * @return Document
      */
     public function setInvoiceType(?int $invoice_type): Document
     {
         $this->invoice_type = $invoice_type;
+
         return $this;
     }
 
@@ -288,11 +316,13 @@ class Document
 
     /**
      * @param int|null $parent_document_id
+     *
      * @return Document
      */
     public function setParentDocumentId(?int $parent_document_id): Document
     {
         $this->parent_document_id = $parent_document_id;
+
         return $this;
     }
 
@@ -306,11 +336,13 @@ class Document
 
     /**
      * @param Data $data
+     *
      * @return Document
      */
     public function setData(Data $data): Document
     {
         $this->data = $data;
+
         return $this;
     }
 
@@ -324,11 +356,13 @@ class Document
 
     /**
      * @param BankAccount $bank_account
+     *
      * @return Document
      */
     public function setBankAccount(BankAccount $bank_account): Document
     {
         $this->bank_account = $bank_account;
+
         return $this;
     }
 
@@ -342,11 +376,13 @@ class Document
 
     /**
      * @param Supplier $supplier
+     *
      * @return Document
      */
     public function setSupplier(Supplier $supplier): Document
     {
         $this->supplier = $supplier;
+
         return $this;
     }
 
@@ -360,11 +396,13 @@ class Document
 
     /**
      * @param Customer $customer
+     *
      * @return Document
      */
     public function setCustomer(Customer $customer): Document
     {
         $this->customer = $customer;
+
         return $this;
     }
 
@@ -378,11 +416,13 @@ class Document
 
     /**
      * @param Summary $summary
+     *
      * @return Document
      */
     public function setSummary(Summary $summary): Document
     {
         $this->summary = $summary;
+
         return $this;
     }
 
@@ -396,11 +436,13 @@ class Document
 
     /**
      * @param TaxLine[] $tax_lines
+     *
      * @return Document
      */
     public function setTaxLines(array $tax_lines): Document
     {
         $this->tax_lines = $tax_lines;
+
         return $this;
     }
 
@@ -414,11 +456,13 @@ class Document
 
     /**
      * @param Item[] $items
+     *
      * @return Document
      */
     public function setItems(array $items): Document
     {
         $this->items = $items;
+
         return $this;
     }
 }

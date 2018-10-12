@@ -1,8 +1,17 @@
 <?php
+
+/*
+ * This file is part of datamolino client.
+ *
+ * (c) 2018 cwd.at GmbH <office@cwd.at>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Cwd\Datamolino\Model\Document;
-
 
 class TaxLine
 {
@@ -28,11 +37,13 @@ class TaxLine
 
     /**
      * @param int $percent
+     *
      * @return TaxLine
      */
     public function setPercent(int $percent): TaxLine
     {
         $this->percent = $percent;
+
         return $this;
     }
 
@@ -46,11 +57,13 @@ class TaxLine
 
     /**
      * @param float $sub_total
+     *
      * @return TaxLine
      */
     public function setSubTotal(float $sub_total): TaxLine
     {
         $this->sub_total = $sub_total;
+
         return $this;
     }
 
@@ -64,11 +77,13 @@ class TaxLine
 
     /**
      * @param float $vat_total
+     *
      * @return TaxLine
      */
     public function setVatTotal(float $vat_total): TaxLine
     {
         $this->vat_total = $vat_total;
+
         return $this;
     }
 
@@ -82,11 +97,13 @@ class TaxLine
 
     /**
      * @param float $total
+     *
      * @return TaxLine
      */
     public function setTotal(float $total): TaxLine
     {
         $this->total = $total;
+
         return $this;
     }
 }
