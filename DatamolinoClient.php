@@ -29,9 +29,13 @@ class DatamolinoClient
     /** @var DocumentEndpoint */
     private $documentEndpoint;
 
-    public function __construct()
+    public function __construct(?Client $client = null)
     {
-        $this->client = new Client();
+        if ($client === null) {
+            $this->client = new Client();
+        } else {
+            $this->client = $client;
+        }
     }
 
     public function user(): UserEndpoint
