@@ -41,7 +41,7 @@ class Client
 
     public function __construct()
     {
-        $this->client = $client = HttpClientDiscovery::find();
+        $this->client = HttpClientDiscovery::find();
         $this->apiUri = sprintf('%s/api/%s/', $this->apiUrl, $this->apiVersion);
         $this->tokenUrl = $this->apiUrl.'/oauth/token';
 

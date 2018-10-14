@@ -15,13 +15,14 @@
     "php": ">=7.1",
     "ext-json": "*",
     "php-http/guzzle6-adapter": "^1.1",
+    "php-http/discovery": "^1.0",
     "symfony/serializer-pack": "~1.0",
     "symfony/finder": "~3.4 || ~4.0",
     "symfony/http-foundation": "~3.4 || ~4.0"
   },
   "suggest": {
     "php-http/curl-client": "for using curl client with php-http",
-    "php-http/guzzle6-adapter": "for using guzzla with php-http"
+    "php-http/guzzle6-adapter": "for using guzzle with php-http"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.13",
