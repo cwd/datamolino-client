@@ -33,7 +33,7 @@ Usage:
 ------
 
 #### Authentication
-```
+```php
 $datamolino = new DatamolinoClient();
 
 // Get a Token via password authentication
@@ -53,14 +53,14 @@ $datamolino->getClient()->setToken($token);
 ```    
     
     
-####User Endpoint
-```
+#### User Endpoint
+```php
 // me   
 $user = $datamolino->user()->me();
 ```
     
-#####Agenda Endpoint
-```
+#### Agenda Endpoint
+```php
 // get all agendas
 $agendas = $datamolino->agenda()->getAll();
 
@@ -86,8 +86,8 @@ $agenda = $datamolino->agenda()->create($agenda, $lacyLoad = true);
 $datamolino->agenda()->delete(4063);
 ```
     
-####Document Endpoint
-```    
+#### Document Endpoint
+```php 
 // Find documents
 $documents = $datamolino->document()->find(4050, [], new \DateTime('2018-10-10 21:59:21'));
 
