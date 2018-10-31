@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\File\File as FileInfo;
 class DocumentEndpoint extends AbstractEndpoint
 {
     public const PAYLOAD_LIMIT = 1024 * 1024 * 20; // 20MB
+    const ENDPOINT = 'documents';
 
     /**
      * @param string|Finder $finder    Location of Files or Finder Instance
@@ -111,7 +112,7 @@ class DocumentEndpoint extends AbstractEndpoint
     public function send(array $files, $lacyLoad = true)
     {
         $payload = $this->getClient()->getSerializer()->serialize(['documents' => $files], 'json');
-        $documents = $this->getClient()->call($payload, null, 'documents', Document::class, true, 'POST');
+        $documents = $this->getClient()->call($payload, null, self::ENDPOINT, Document::class, true, 'POST');
 
         if ($lacyLoad) {
             $ids = [];
@@ -128,7 +129,7 @@ class DocumentEndpoint extends AbstractEndpoint
 
     public function get(int $id): Document
     {
-        return $this->getClient()->call(null, $id, 'docuemnts', Document::class, false, 'GET');
+        return $this->getClient()->call(null, $id, self::ENDPOINT, Document::class, false, 'GET');
     }
 
     /**
@@ -144,7 +145,7 @@ class DocumentEndpoint extends AbstractEndpoint
             $document = $document->getId();
         }
 
-        return $this->getClient()->call(null, $document, 'documents', OriginalFile::class, false, 'GET', '/original_file');
+        return $this->getClient()->call(null, $document, self::ENDPOINT, OriginalFile::class, false, 'GET', '/original_file');
     }
 
     /**
@@ -158,7 +159,7 @@ class DocumentEndpoint extends AbstractEndpoint
             $document = $document->getId();
         }
 
-        $this->getClient()->call(null, $document, 'documents', null, false, 'DELETE');
+        $this->getClient()->call(null, $document, self::ENDPOINT, null, false, 'DELETE');
     }
 
     /**
@@ -173,7 +174,7 @@ class DocumentEndpoint extends AbstractEndpoint
             $document = $document->getId();
         }
 
-        $this->getClient()->call(null, $document, 'documents', OriginalFile::class, false, 'POST', sprintf(
+        $this->getClient()->call(null, $document, self::ENDPOINT, OriginalFile::class, false, 'POST', sprintf(
                 '/repair?repair_description=%s', urlencode($text))
         );
     }
@@ -214,6 +215,6 @@ class DocumentEndpoint extends AbstractEndpoint
             }
         }
 
-        return $this->getClient()->call(null, sprintf('?%s', implode('&', $queryString)), 'documents', Document::class, true, 'GET');
+        return $this->getClient()->call(null, sprintf('?%s', implode('&', $queryString)), self::ENDPOINT, Document::class, true, 'GET');
     }
 }

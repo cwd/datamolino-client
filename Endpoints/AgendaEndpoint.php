@@ -17,6 +17,8 @@ use Cwd\Datamolino\Model\Agenda;
 
 class AgendaEndpoint extends AbstractEndpoint
 {
+    const ENDPOINT = 'agendas';
+
     /**
      * @return Agenda[]
      *
@@ -24,7 +26,7 @@ class AgendaEndpoint extends AbstractEndpoint
      */
     public function getAll()
     {
-        return $this->getClient()->call(null, null, 'agendas', Agenda::class, true, 'GET');
+        return $this->getClient()->call(null, null, self::ENDPOINT, Agenda::class, true, 'GET');
     }
 
     /**
@@ -36,7 +38,7 @@ class AgendaEndpoint extends AbstractEndpoint
      */
     public function get(int $id): Agenda
     {
-        return $this->getClient()->call(null, $id, 'agendas', Agenda::class, false, 'GET');
+        return $this->getClient()->call(null, $id, self::ENDPOINT, Agenda::class, false, 'GET');
     }
 
     /**
@@ -50,7 +52,7 @@ class AgendaEndpoint extends AbstractEndpoint
     public function create(Agenda $agenda, $lazyLoad = false): Agenda
     {
         $payload = $this->getClient()->getSerializer()->serialize(['agendas' => [$agenda]], 'json');
-        $agenda = $this->getClient()->call($payload, null, 'agendas', Agenda::class, false, 'POST');
+        $agenda = $this->getClient()->call($payload, null, self::ENDPOINT, Agenda::class, false, 'POST');
 
         if ($lazyLoad) {
             return $this->get($agenda->getId());
@@ -69,7 +71,7 @@ class AgendaEndpoint extends AbstractEndpoint
     public function update(Agenda $agenda)
     {
         $payload = $this->getClient()->getSerializer()->serialize(['agendas' => [$agenda]], 'json');
-        $this->getClient()->call($payload, $agenda->getId(), 'agendas', null, false, 'PUT');
+        $this->getClient()->call($payload, $agenda->getId(), self::ENDPOINT, null, false, 'PUT');
     }
 
     /**
@@ -81,6 +83,6 @@ class AgendaEndpoint extends AbstractEndpoint
      */
     public function delete(int $id): void
     {
-        $this->getClient()->call(null, $id, 'agendas', null, false, 'DELETE');
+        $this->getClient()->call(null, $id, self::ENDPOINT, null, false, 'DELETE');
     }
 }

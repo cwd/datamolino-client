@@ -17,6 +17,8 @@ use Cwd\Datamolino\Model\User;
 
 class UserEndpoint extends AbstractEndpoint
 {
+    const ENDPOINT = 'me';
+
     /**
      * @return User
      *
@@ -25,7 +27,7 @@ class UserEndpoint extends AbstractEndpoint
     public function me(): User
     {
         // Result is different - denormalize by hand
-        $data = $this->getClient()->call(null, null, 'me', null, false, 'GET');
+        $data = $this->getClient()->call(null, null, self::ENDPOINT, null, false, 'GET');
 
         return $this->getClient()->denormalizeObject(User::class, [$data], false);
     }
