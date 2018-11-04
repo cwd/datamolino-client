@@ -24,8 +24,10 @@ class DatamolinoClient
 
     /** @var UserEndpoint */
     private $userEndpoint;
+
     /** @var AgendaEndpoint */
     private $agendaEndpoint;
+
     /** @var DocumentEndpoint */
     private $documentEndpoint;
 

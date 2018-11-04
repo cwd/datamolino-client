@@ -23,6 +23,7 @@ use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use GuzzleHttp\Client as GuzzleClient;
 
 class Client
 {
@@ -39,9 +40,11 @@ class Client
     /** @var Serializer */
     private $serializer;
 
-    public function __construct()
+    public function __construct(?GuzzleClient $client = null)
     {
-        $this->client = HttpClientDiscovery::find();
+        if ($client === null) {
+            $this->client = HttpClientDiscovery::find();
+        }
         $this->apiUri = sprintf('%s/api/%s/', $this->apiUrl, $this->apiVersion);
         $this->tokenUrl = $this->apiUrl.'/oauth/token';
 
@@ -58,14 +61,15 @@ class Client
      * @param string          $method
      * @param string|null     $urlExtension   - Special case only needed when retrieving original file!
      *
-     * @return mixed
-     *
      * @throws \Http\Client\Exception
+     * @throws \LogicException
+     *
+     * @return mixed
      */
     public function call($payload = null, $id = null, $endpoint = '', $hydrationClass = null, $isList = false, $method = 'POST', $urlExtension = null)
     {
         if (!$this->token instanceof Token) {
-            throw new \Exception('Token not set - Authenticate first - or store refresh token for later use');
+            throw new \LogicException('Token not set - Authenticate first - or store refresh token for later use');
         }
 
         if (in_array($method, ['GET', 'PUT', 'DELETE'])) {
@@ -89,12 +93,8 @@ class Client
         $responseBody = $response->getBody()->getContents();
         $responseData = json_decode($responseBody);
 
-        if ('dev' === getenv('APP_ENV')) {
-            dump([$request, $responseData]);
-        }
-
-        if ($response->getStatusCode() > 299) {
-            $message = isset($responseData->message) ? $responseData->message : 'Unknown';
+        if ($response->getStatusCode() >= 300) {
+            $message = isset($responseData->message) ?? 'Unknown';
             throw new \Exception(sprintf('Error on request %s: %s', $response->getStatusCode(), $message));
         }
 
@@ -116,9 +116,9 @@ class Client
      * @param string $password
      *
      * @throws \Http\Client\Exception
-     * @ToDo Handle Token storage
+     * @return Token
      */
-    public function authenticatePassword($clientId, $clientSecret, $username, $password): Token
+    public function authenticatePassword($clientId, string $clientSecret, string $username, string $password): Token
     {
         $request = new Request('POST', $this->tokenUrl, [
             'Content-Type' => 'application/json',
@@ -143,7 +143,8 @@ class Client
      * @param string $refreshToken
      *
      * @throws \Http\Client\Exception
-     * @ToDo Handle Token storage
+     *
+     * @return Token
      */
     public function refreshToken($clientId, $clientSecret, $refreshToken): Token
     {

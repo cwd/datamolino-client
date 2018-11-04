@@ -21,8 +21,7 @@
     "symfony/http-foundation": "~3.4 || ~4.0"
   },
   "suggest": {
-    "php-http/curl-client": "for using curl client with php-http",
-    "php-http/guzzle6-adapter": "for using guzzle with php-http"
+    "symfony/symfony": "For using bundle integration"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.13",

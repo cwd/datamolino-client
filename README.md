@@ -18,11 +18,7 @@ Dependencies:
 
 * php >=7.1
 * ext-json
-* php-http/guzzle6-adapter ^1.1,
-* php-http/discovery ^1.0
-* symfony/serializer-pack ~1.0
-* symfony/finder ~3.3 || ~4.0
-* symfony/http-foundation ~3.3 || ~4.0
+
 
 
 Installation:
@@ -104,3 +100,35 @@ $datamolino->document()->repair(268138, 'API test ignore');
 // Delete document
 $datamolino->document()->delete(268145);
 ```    
+
+Symfony Integration
+-------------------
+#### Configuration
+Enable the bundle in bundles.php:
+
+```
+return [
+ // ...
+ Cwd\Datamolino\CwdDatamolino::class => ['all' => true],
+]
+```
+
+Create config/packages/cwd_datamolino.yaml:
+```
+cwd_datamolino:
+  client_id: your_client_id
+  client_secret: you_client_secret
+  datamolino_host: beta.datamolino.com or app.datamolino.com
+  username: your_username
+  password: your_password
+```
+
+
+#### Authentication
+```php
+$datamolino = $this->get(Cwd\Datamolino\DatamolinoClient::class);
+
+// Get a Token via password authentication
+$token = $datamolino->getClient()->authenticate();
+
+```

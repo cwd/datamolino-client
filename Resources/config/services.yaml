@@ -1,0 +1,14 @@
+services:
+  Cwd\DatamolinoBundle\Client:
+    arguments:
+      $clientId: "%cwd_datamolino.client_id%"
+      $clientSecret: "%cwd_datamolino.client_secret%"
+      $hostname: "%cwd_datamolino.datamolino_host%"
+      $password: "%cwd_datamolino.password%"
+      $username: "%cwd_datamolino.username%"
+    public: false
+
+  Cwd\Datamolino\DatamolinoClient:
+    arguments:
+      $client: "@Cwd\\Datamolino\\SymfonyClient"
+    public: true
