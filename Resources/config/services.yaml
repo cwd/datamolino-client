@@ -1,5 +1,5 @@
 services:
-  Cwd\DatamolinoBundle\Client:
+  Cwd\Datamolino\SymfonyClient:
     arguments:
       $clientId: "%cwd_datamolino.client_id%"
       $clientSecret: "%cwd_datamolino.client_secret%"

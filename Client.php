@@ -42,7 +42,7 @@ class Client
 
     public function __construct(?GuzzleClient $client = null)
     {
-        if ($client === null) {
+        if (null === $client) {
             $this->client = HttpClientDiscovery::find();
         }
         $this->apiUri = sprintf('%s/api/%s/', $this->apiUrl, $this->apiVersion);
@@ -116,6 +116,7 @@ class Client
      * @param string $password
      *
      * @throws \Http\Client\Exception
+     *
      * @return Token
      */
     public function authenticatePassword($clientId, string $clientSecret, string $username, string $password): Token
