@@ -51,6 +51,21 @@ class Header
     /** @var string|null */
     private $text;
 
+    /** @var string|null */
+    private $customer_no;
+
+    /** @var string|null */
+    private $purchase_order_no;
+
+    /** @var string|null */
+    private $reference;
+
+    /** @var string|null */
+    private $delivery_note_no;
+
+    /** @var string|null */
+    private $card_no;
+
     /**
      * @return null|string
      */
@@ -287,6 +302,106 @@ class Header
     public function setText(?string $text): Header
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCustomerNo(): ?string
+    {
+        return $this->customer_no;
+    }
+
+    /**
+     * @param null|string $customer_no
+     *
+     * @return Header
+     */
+    public function setCustomerNo(?string $customer_no): Header
+    {
+        $this->customer_no = $customer_no;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPurchaseOrderNo(): ?string
+    {
+        return $this->purchase_order_no;
+    }
+
+    /**
+     * @param null|string $purchase_order_no
+     *
+     * @return Header
+     */
+    public function setPurchaseOrderNo(?string $purchase_order_no): Header
+    {
+        $this->purchase_order_no = $purchase_order_no;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    /**
+     * @param null|string $reference
+     *
+     * @return Header
+     */
+    public function setReference(?string $reference): Header
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDeliveryNoteNo(): ?string
+    {
+        return $this->delivery_note_no;
+    }
+
+    /**
+     * @param null|string $delivery_note_no
+     *
+     * @return Header
+     */
+    public function setDeliveryNoteNo(?string $delivery_note_no): Header
+    {
+        $this->delivery_note_no = $delivery_note_no;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCardNo(): ?string
+    {
+        return $this->card_no;
+    }
+
+    /**
+     * @param null|string $card_no
+     *
+     * @return Header
+     */
+    public function setCardNo(?string $card_no): Header
+    {
+        $this->card_no = $card_no;
 
         return $this;
     }

@@ -93,6 +93,8 @@ class Client
         $responseBody = $response->getBody()->getContents();
         $responseData = json_decode($responseBody);
 
+        dump($responseData);
+
         if ($response->getStatusCode() >= 300) {
             $message = isset($responseData->message) ?? 'Unknown';
             throw new \Exception(sprintf('Error on request %s: %s', $response->getStatusCode(), $message));
