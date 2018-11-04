@@ -42,6 +42,12 @@ class Item
     /** @var float */
     private $total = 0;
 
+    /** @var float */
+    private $discount_rate = 0.0;
+
+    /** @var float */
+    private $discount = 0.0;
+
     /**
      * @return null|string
      */
@@ -218,6 +224,46 @@ class Item
     public function setTotal(float $total): Item
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscountRate(): float
+    {
+        return $this->discount_rate;
+    }
+
+    /**
+     * @param float $discount_rate
+     *
+     * @return Item
+     */
+    public function setDiscountRate(float $discount_rate): Item
+    {
+        $this->discount_rate = $discount_rate;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscount(): float
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @param float $discount
+     *
+     * @return Item
+     */
+    public function setDiscount(float $discount): Item
+    {
+        $this->discount = $discount;
 
         return $this;
     }

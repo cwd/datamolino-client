@@ -16,6 +16,21 @@ namespace Cwd\Datamolino\Model\Document;
 class Summary
 {
     /** @var float|null */
+    private $shipping;
+
+    /** @var float|null */
+    private $other_cost1;
+
+    /** @var float|null */
+    private $other_cost2;
+
+    /** @var float|null */
+    private $other_cost3;
+
+    /** @var float|null */
+    private $total_discount;
+
+    /** @var float|null */
     private $payment_amount;
 
     /** @var float */
@@ -149,6 +164,106 @@ class Summary
     public function setTotal(float $total): Summary
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getShipping(): ?float
+    {
+        return $this->shipping;
+    }
+
+    /**
+     * @param float|null $shipping
+     *
+     * @return Summary
+     */
+    public function setShipping(?float $shipping): Summary
+    {
+        $this->shipping = $shipping;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getOtherCost1(): ?float
+    {
+        return $this->other_cost1;
+    }
+
+    /**
+     * @param float|null $other_cost1
+     *
+     * @return Summary
+     */
+    public function setOtherCost1(?float $other_cost1): Summary
+    {
+        $this->other_cost1 = $other_cost1;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getOtherCost2(): ?float
+    {
+        return $this->other_cost2;
+    }
+
+    /**
+     * @param float|null $other_cost2
+     *
+     * @return Summary
+     */
+    public function setOtherCost2(?float $other_cost2): Summary
+    {
+        $this->other_cost2 = $other_cost2;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getOtherCost3(): ?float
+    {
+        return $this->other_cost3;
+    }
+
+    /**
+     * @param float|null $other_cost3
+     *
+     * @return Summary
+     */
+    public function setOtherCost3(?float $other_cost3): Summary
+    {
+        $this->other_cost3 = $other_cost3;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTotalDiscount(): ?float
+    {
+        return $this->total_discount;
+    }
+
+    /**
+     * @param float|null $total_discount
+     *
+     * @return Summary
+     */
+    public function setTotalDiscount(?float $total_discount): Summary
+    {
+        $this->total_discount = $total_discount;
 
         return $this;
     }

@@ -11,7 +11,7 @@ Datamolino Client
 
 see https://datamolino.docs.apiary.io/#introduction/how-to-start-using-datamolino-api
 
-This Datamolino Client is currently compatible with version **1.2.2** of the Datamolino API 
+This Datamolino Client is currently compatible with version **1.2.3** of the Datamolino API 
 
 Dependencies:
 ------------
