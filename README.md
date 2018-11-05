@@ -91,8 +91,16 @@ $documents = $datamolino->document()->find(4050, [], new \DateTime('2018-10-10 2
 $document = $datamolino->document()->get(268145);
 
 // Upload multiple documents via finder
-$finder = new Finder();
-$documents = $datamolino->document()->createByFinder($finder->in('../testdata'), 4050, Document::DOCTYPE_PURCHASE, false, true);
+$finder = (new Finder())->in('../testdata')->date('since 1 hour ago');
+$documents = $datamolino->document()->createMultiple($finder, 4050, Document::DOCTYPE_PURCHASE, false, true);
+// Or path
+$documents = $datamolino->document()->createMultiple('../testdata', 4050, Document::DOCTYPE_PURCHASE, false, true);
+// or supply an array with SPLFileInfo Objects
+$files = [
+    new \SplFileInfo('path/to/file.pdf'),
+    new \SplFileInfo('path/to/other/file.pdf'),
+];
+$documents = $datamolino->document()->createMultiple($files, 4050, Document::DOCTYPE_PURCHASE, false, true);
 
 // send repair request for a document
 $datamolino->document()->repair(268138, 'API test ignore');

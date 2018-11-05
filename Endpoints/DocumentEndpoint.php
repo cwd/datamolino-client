@@ -19,6 +19,7 @@ use Cwd\Datamolino\Model\OriginalFile;
 use Cwd\Datamolino\Model\UploadFile;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\File as FileInfo;
+use Webmozart\Assert\Assert;
 
 class DocumentEndpoint extends AbstractEndpoint
 {
@@ -26,27 +27,26 @@ class DocumentEndpoint extends AbstractEndpoint
     const ENDPOINT = 'documents';
 
     /**
-     * @param string|Finder $finder    Location of Files or Finder Instance
-     * @param int           $agendaId
-     * @param string        $type
-     * @param bool          $fileSplit
-     * @param bool          $lacyLoad
+     * @param string|array|Finder $source    Location of Files or Finder Instance or array of SPLFileInfo
+     * @param int                 $agendaId
+     * @param string              $type
+     * @param bool                $fileSplit
+     * @param bool                $lacyLoad
      *
      * @return Document[]
      *
      * @throws \Http\Client\Exception
+     * @throws \LogicException
      */
-    public function createByFinder($finder, int $agendaId, string $type = Document::DOCTYPE_PURCHASE, $fileSplit = false, $lacyLoad = false): array
+    public function createMultiple($source, int $agendaId, string $type = Document::DOCTYPE_PURCHASE, $fileSplit = false, $lacyLoad = false): array
     {
         $currentFileSize = 0;
         $resultDocuments = [];
         $documentFiles = [];
 
-        if (!$finder instanceof Finder) {
-            $finder = (new Finder())->in($finder);
-        }
+        $files = $this->retrieveFiles($source);
 
-        foreach ($finder as $file) {
+        foreach ($files as $file) {
             $documentFile = new DocumentFile();
             $documentFile->setType($type)
                 ->setAgendaId($agendaId)
@@ -55,7 +55,7 @@ class DocumentEndpoint extends AbstractEndpoint
             $mimeType = (new FileInfo($file->getPathname()))->getMimeType();
             $currentFileSize += $file->getSize();
             $documentFile->setFile(
-                new UploadFile($file->getFilename(), $mimeType, $file->getContents())
+                new UploadFile($file->getFilename(), $mimeType, file_get_contents($file->getPathname()))
             );
 
             $documentFiles[] = $documentFile;
@@ -216,5 +216,31 @@ class DocumentEndpoint extends AbstractEndpoint
         }
 
         return $this->getClient()->call(null, sprintf('?%s', implode('&', $queryString)), self::ENDPOINT, Document::class, true, 'GET');
+    }
+
+    /**
+     * @param string|array|Finder $filesProvider Location of Files or Finder Instance or array of SPLFileInfo
+     *
+     * @throws \LogicException
+     *
+     * @return \SplFileInfo[]
+     */
+    private function retrieveFiles($filesProvider): iterable
+    {
+        if ($filesProvider instanceof Finder) {
+            return $filesProvider->files();
+        }
+
+        if (is_string($filesProvider)) {
+            return (new Finder())->in($filesProvider)->files();
+        }
+
+        if (is_array($filesProvider)) {
+            Assert::allIsInstanceOf($filesProvider, \SplFileInfo::class, 'When using array all files need to implement SPLFileInfo');
+
+            return $filesProvider;
+        }
+
+        throw new \LogicException(sprintf('Invalid files provider type: "%s', gettype($filesProvider)));
     }
 }
