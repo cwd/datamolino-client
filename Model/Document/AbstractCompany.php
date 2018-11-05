@@ -19,6 +19,9 @@ abstract class AbstractCompany
     protected $id;
 
     /** @var string|null */
+    protected $name;
+
+    /** @var string|null */
     protected $tax_id;
 
     /** @var string|null */
@@ -175,6 +178,26 @@ abstract class AbstractCompany
     public function setCountry(?string $country): AbstractCompany
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param null|string $name
+     *
+     * @return AbstractCompany
+     */
+    public function setName(?string $name): AbstractCompany
+    {
+        $this->name = $name;
 
         return $this;
     }
