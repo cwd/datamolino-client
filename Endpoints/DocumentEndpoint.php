@@ -205,7 +205,7 @@ class DocumentEndpoint extends AbstractEndpoint
 
         if (count($states) > 0) {
             foreach ($states as $state) {
-                $queryString[] = sprintf('state[]=%s', $state);
+                $queryString[] = sprintf('states[]=%s', $state);
             }
         }
 
