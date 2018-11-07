@@ -109,6 +109,6 @@ class OriginalFile
 
     public function getOrginalFile()
     {
-        return base64_decode($this->original_file_base64);
+        return base64_decode(strtr($this->original_file_base64, '-_,', '+/='));
     }
 }
