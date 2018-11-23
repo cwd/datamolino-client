@@ -22,7 +22,6 @@ class SymfonyClient extends CwdClient
     private $clientSecret;
     private $username;
     private $password;
-    private $hostname;
 
     public function __construct($clientId, $clientSecret, $username, $password, $hostname)
     {
@@ -30,7 +29,7 @@ class SymfonyClient extends CwdClient
         $this->clientSecret = $clientSecret;
         $this->username = $username;
         $this->password = $password;
-        $this->hostname = $hostname;
+        $this->setApiUrl('https://'.$hostname);
 
         parent::__construct();
     }

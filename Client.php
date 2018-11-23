@@ -45,8 +45,8 @@ class Client
         if (null === $client) {
             $this->client = HttpClientDiscovery::find();
         }
-        $this->apiUri = sprintf('%s/api/%s/', $this->apiUrl, $this->apiVersion);
-        $this->tokenUrl = $this->apiUrl.'/oauth/token';
+
+        $this->setUris();
 
         $normalizer = new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter(), null, new ReflectionExtractor());
         $this->serializer = new Serializer([new DateTimeNormalizer(), $normalizer], ['json' => new JsonEncoder()]);
@@ -189,6 +189,7 @@ class Client
     public function setApiUrl(string $apiUrl): Client
     {
         $this->apiUrl = $apiUrl;
+        $this->setUris();
 
         return $this;
     }
@@ -229,6 +230,7 @@ class Client
     public function setApiUri(string $apiUri): Client
     {
         $this->apiUri = $apiUri;
+        $this->setUris();
 
         return $this;
     }
@@ -281,5 +283,11 @@ class Client
     public function getSerializer(): Serializer
     {
         return $this->serializer;
+    }
+
+    private function setUris(): void
+    {
+        $this->apiUri = sprintf('%s/api/%s/', $this->apiUrl, $this->apiVersion);
+        $this->tokenUrl = $this->apiUrl.'/oauth/token';
     }
 }
