@@ -118,13 +118,13 @@ class DocumentEndpoint extends AbstractEndpoint
             $ids = [];
             /** @var Document $document */
             foreach ($documents as $document) {
-                if ($document->getId() === null) {
+                if (null === $document->getId()) {
                     continue;
                 }
                 $ids[] = $document->getId();
             }
 
-            if (count($ids) == 0) {
+            if (0 == count($ids)) {
                 return [];
             }
 
@@ -136,14 +136,16 @@ class DocumentEndpoint extends AbstractEndpoint
 
     /**
      * @param int $id
+     *
      * @return Document|Document[]
+     *
      * @throws \Http\Client\Exception
      */
     public function get(int $id)
     {
         $documents = $this->getClient()->call(null, $id, self::ENDPOINT, Document::class, true, 'GET');
 
-        if (count($documents) == 1) {
+        if (1 == count($documents)) {
             return current($documents);
         }
 
